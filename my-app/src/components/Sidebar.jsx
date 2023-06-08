@@ -9,7 +9,7 @@ const Sidebar = ({
     setActiveNote,
 }) => {
 
-  const sortedNotes = notes.sort((a, b) => b.upDateDay - a.upDateDay);
+  const sortedNotes = notes.sort((a, b) => b.updateDay - a.updateDay);
 
   return (
     <div className='app-sidebar'>
@@ -29,7 +29,7 @@ const Sidebar = ({
                     <button onClick={() => OnDeleteNote(note.id)}>削除</button>
                 </div>
                 <p>{note.content}</p>
-                <small>{new Date (note.upDateDay).toLocaleDateString("ja-JP", {
+                <small>{new Date (note.updateDay).toLocaleDateString("ja-JP", {
                     hour: "2-digit",
                     minute: "2-digit",
                 })}</small>

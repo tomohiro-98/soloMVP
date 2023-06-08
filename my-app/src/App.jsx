@@ -5,24 +5,41 @@ import Main from './components/Main';
 import Sidebar from './components/Sidebar';
 import uuid from 'react-uuid';
 
+// import axios from "axios"; 
 
 function App() {
-  // ローカルストレージから初期値を取得
-  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes"))|| []);
-  // const [notes, setNotes] = useState([]);
-
   const [activeNote, setActiveNote] = useState(false);
+  const [notes, setNotes] = useState([]);
 
-// ローカルストレージにnotesを保存
+  // ローカルストレージから初期値を取得
+  // const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes"))|| []);
+  // ローカルストレージにnotesを保存
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   },[notes]);
 
-  
   useEffect(() => {
-    setActiveNote(notes[0].id);
-    console.log('notes[0].id: ', notes[0].id);
-  }, [notes]);
+    const fetchNotes = async () => {
+      try {
+        const response = await fetch('http://localhost:3003/notes');
+        const data = await response.json();
+        setNotes(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNotes();
+  }, []);
+  
+  // useEffect(() => {
+  //     // psqlから初期値を取得
+  //   const fetchNotes = async () => {
+  //     const response = await fetch("http://localhost:3003/notes").then(e => e.json());
+  //     console.log(response);
+  //     return response.data || [];
+  //   };
+  //   fetchNotes();
+  // },[])
 
   const onAddNote = () => {
     console.log("新しいノートを追加");
@@ -30,7 +47,7 @@ function App() {
       id : uuid(),
       title : "",
       content : "",
-      upDateDay : Date.now(),
+      updateDay : Date.now(),
     };
     setNotes([...notes, newNote]);
     console.log(notes);
@@ -71,3 +88,8 @@ function App() {
 }
 
 export default App;
+
+// useEffect(() => {
+//   setActiveNote(notes[0].id);
+//   // console.log('notes[0].id: ', notes[0].id);
+// }, []);
