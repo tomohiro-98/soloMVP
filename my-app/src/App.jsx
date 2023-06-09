@@ -4,25 +4,26 @@ import './App.css';
 import Main from './components/Main';
 import Sidebar from './components/Sidebar';
 import uuid from 'react-uuid';
-
 // import axios from "axios"; 
 
 function App() {
   const [activeNote, setActiveNote] = useState(false);
-  const [notes, setNotes] = useState([]);
+  // const [notes, setNotes] = useState([]);
 
   // ローカルストレージから初期値を取得
-  // const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes"))|| []);
+  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes"))|| []);
   // ローカルストレージにnotesを保存
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   },[notes]);
 
+  //  psqlから初期値を取得
   useEffect(() => {
     const fetchNotes = async () => {
       try {
         const response = await fetch('http://localhost:3003/notes');
         const data = await response.json();
+        console.log("psqlから初期値を取得", response);
         setNotes(data);
       } catch (error) {
         console.error(error);
@@ -30,9 +31,8 @@ function App() {
     };
     fetchNotes();
   }, []);
-  
+
   // useEffect(() => {
-  //     // psqlから初期値を取得
   //   const fetchNotes = async () => {
   //     const response = await fetch("http://localhost:3003/notes").then(e => e.json());
   //     console.log(response);
@@ -40,6 +40,34 @@ function App() {
   //   };
   //   fetchNotes();
   // },[])
+
+  // const handleAddNote = async () => {
+  //   try {
+  //     const newNote = {
+  //       id : uuid(),
+  //       title : "",
+  //       content : "",
+  //       updateDay : Date.now(),
+  //     };
+  
+  //     const response = await fetch('http://localhost:3003/notes', {
+  //       method: 'POST',
+  //       // headers: {
+  //       //   'Content-Type': 'application/json',
+  //       // },
+  //       body: JSON.stringify(newNote),
+  //     });
+  
+  //     if (response.ok) {
+  //       const insertedNote = await response.json();
+  //       console.log(insertedNote);
+  //     } else {
+  //       console.error('Failed to add note');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const onAddNote = () => {
     console.log("新しいノートを追加");
@@ -49,6 +77,7 @@ function App() {
       content : "",
       updateDay : Date.now(),
     };
+    // handleAddNote();
     setNotes([...notes, newNote]);
     console.log(notes);
   };

@@ -11,11 +11,40 @@ const Sidebar = ({
 
   const sortedNotes = notes.sort((a, b) => b.updateDay - a.updateDay);
 
+  // 検討中
+//   const handleAddNote = async () => {
+//     try {
+//       const newNote = {
+//         title: 'New Note Title',
+//         content: 'New Note Content',
+//         updateDay: Date.now(),
+//       };
+  
+//       const response = await fetch('/notes', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(newNote),
+//       });
+  
+//       if (response.ok) {
+//         const insertedNote = await response.json();
+//         console.log(insertedNote);
+//       } else {
+//         console.error('Failed to add note');
+//       }
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
   return (
     <div className='app-sidebar'>
         <div className='app-sidebar-header'>
             <h1>note</h1>
-            <button onClick={onAddNote}>追加</button>
+            {/* <button onClick={onAddNote}>追加</button> */}
+            <button onClick={onAddNote} >追加</button>
         </div>
         <div className='app-sidebar-notes'>
             {sortedNotes.map((note) => (

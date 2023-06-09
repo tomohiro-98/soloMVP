@@ -5,23 +5,6 @@ import {ReactMarkdown} from "react-markdown/lib/react-markdown";
 // import axios from 'axios';
 
 const Main = ({activeNote, onUpdateNote}) => {
-  // // ノートの状態を管理
-  // const [notes, setNotes] = useState([]);
-
-  // // データの取得処理
-  // useEffect(() => {
-  //   const fetchNotes = async () => {
-  //     try {
-  //       const response = await fetch('/notes');
-  //       const data = await response.json();
-  //       setNotes(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchNotes();
-  // }, []);
-
 
   const onEditNote = (key, value) => {
     onUpdateNote({

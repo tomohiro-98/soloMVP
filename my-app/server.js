@@ -32,14 +32,29 @@ app.get('/notes', async (req, res) => {
     }
 });
 
-  // app.post('/notes', async (req, res) => {
-  //   try {
-  //     const { id, title, content, updateDay } = req.body;
-  //     const note = await knex('notes').insert({ id, title, content, updateDay }).returning('*');
-  //     res.json(note);
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({ error: 'Server error' });
-  //   }
-  // });
-  
+app.post('/notes', async (req, res) => {
+  try {
+    const { id, title, content, updateDay } = req.body;
+    const note = await knex('notes').insert({ id, title, content, updateDay }).returning('*');
+    res.json(note);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.put('/notes/', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content, updateDay } = req.body;
+
+    const updatedNote = { title, content, updateDay };
+
+    await knex('notes').where({ id }).update(updatedNote);
+
+    res.status(200).json({ message: 'Note updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
